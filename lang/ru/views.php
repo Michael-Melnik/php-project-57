@@ -76,7 +76,8 @@ return [
                 'name' => 'Имя',
                 'description' => 'Описание',
                 'status_id' => 'Статус',
-                'assigned_to_id' => 'Исполнитель'
+                'assigned_to_id' => 'Исполнитель',
+                'labels' => 'Метки'
             ],
             'buttons' => [
                 'create' => 'Создать'
