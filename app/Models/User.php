@@ -10,7 +10,6 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 class User extends Authenticatable
 {
     use HasApiTokens;
