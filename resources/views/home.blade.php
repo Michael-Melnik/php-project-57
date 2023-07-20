@@ -10,7 +10,7 @@
                 @lang('views.home.description')
             </p>
             <div class="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-                <a href="https://ashikov.ru" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" target="_blank">
+                <a href="https://github.com/Michael-Melnik" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" target="_blank">
                     @lang('views.home.learn_more')
                 </a>
             </div>
