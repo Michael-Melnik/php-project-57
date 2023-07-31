@@ -9,8 +9,6 @@ use App\Models\{TaskStatus, User};
 
 class TaskStatusControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     private User $user;
 
     protected function setUp(): void

@@ -11,8 +11,6 @@ use App\Models\{Task, TaskStatus, User};
 
 class TaskControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     private User $user;
 
     protected function setUp(): void
