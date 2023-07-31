@@ -56,10 +56,6 @@ class TaskController extends Controller
             'users' => User::all(),
             'taskLabels' => [],
         ]);
-//        $users = User::all()->sortBy('name');
-//        $taskStatuses = TaskStatus::all();
-//        $labels = Label::all();
-//        return view('task.create', compact('users', 'taskStatuses', 'labels'));
     }
 
     /**
