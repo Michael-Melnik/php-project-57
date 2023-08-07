@@ -52,7 +52,7 @@ class TaskController extends Controller
             'task' => new Task(),
             'taskStatuses' => TaskStatus::all(),
             'labels' => Label::all(),
-            'users' => User::pluck('name', 'id')->sort(),
+            'users' => User::pluck('name', 'id'),
             'taskLabels' => [],
         ]);
     }
@@ -110,7 +110,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $users = User::pluck('name', 'id')->sort();;
+        $users = User::pluck('name', 'id')->sort();
         $taskStatuses = TaskStatus::all();
         $labels = Label::all();
         return view('task.edit', compact('task', 'users', 'taskStatuses', 'labels'));

@@ -33,7 +33,7 @@
                 {{ Form::label('assigned_to_id', __('views.task.create.labels.assigned_to_id')) }}
             </div>
             <div>
-                {{ Form::select('assigned_to_id', $users->pluck('name', 'id'), null, ['class' => 'rounded border-gray-300 w-1/3', 'placeholder' => '----------'] )}}
+                {{ Form::select('assigned_to_id', $users, null, ['class' => 'rounded border-gray-300 w-1/3', 'placeholder' => '----------'] )}}
             </div>
             <div class="mt-2">
                 {{Form::label('labels', __('views.task.create.labels.assigned_to_id'))}}
