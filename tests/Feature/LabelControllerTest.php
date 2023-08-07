@@ -8,12 +8,13 @@ use App\Models\{User, Label};
 class LabelControllerTest extends TestCase
 {
     private User $user;
+    private Label $label;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        Label::factory()->count(10)->create();
+        $this->label = Label::factory()->create();
     }
     public function testIndex(): void
     {
@@ -29,8 +30,7 @@ class LabelControllerTest extends TestCase
 
     public function testEdit(): void
     {
-        $label = Label::factory()->create();
-        $response = $this->actingAs($this->user)->get(route('labels.edit', $label));
+        $response = $this->actingAs($this->user)->get(route('labels.edit', $this->label));
         $response->assertOk();
     }
 
@@ -46,9 +46,8 @@ class LabelControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $label = Label::factory()->create();
         $data = Label::factory()->make()->only('name', 'description');
-        $response = $this->actingAs($this->user)->patch(route('labels.update', $label), $data);
+        $response = $this->actingAs($this->user)->patch(route('labels.update', $this->label), $data);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
@@ -57,11 +56,10 @@ class LabelControllerTest extends TestCase
 
     public function testDelete(): void
     {
-        $label = Label::factory()->create();
-        $response = $this->actingAs($this->user)->delete(route('labels.destroy', $label));
+        $response = $this->actingAs($this->user)->delete(route('labels.destroy', $this->label));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        $this->assertDatabaseMissing('labels', ['id' => (array) $label['id']]);
+        $this->assertDatabaseMissing('labels', ['id' => (array) $this->label['id']]);
     }
 }

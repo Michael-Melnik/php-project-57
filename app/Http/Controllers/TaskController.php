@@ -48,12 +48,11 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Task::class);
         return view('task.create', [
             'task' => new Task(),
             'taskStatuses' => TaskStatus::all(),
             'labels' => Label::all(),
-            'users' => User::all(),
+            'users' => User::pluck('name', 'id')->sort(),
             'taskLabels' => [],
         ]);
     }
@@ -111,7 +110,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $users = User::all();
+        $users = User::pluck('name', 'id')->sort();;
         $taskStatuses = TaskStatus::all();
         $labels = Label::all();
         return view('task.edit', compact('task', 'users', 'taskStatuses', 'labels'));

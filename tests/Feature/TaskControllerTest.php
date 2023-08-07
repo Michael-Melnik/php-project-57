@@ -10,12 +10,15 @@ use App\Models\{Task, TaskStatus, User};
 class TaskControllerTest extends TestCase
 {
     private User $user;
+    private Task $task;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        Task::factory()->count(10)->create();
+        $this->task = Task::factory()->create([
+            'created_by_id' => $this->user->id
+        ]);
     }
 
     public function testIndex(): void
@@ -32,8 +35,7 @@ class TaskControllerTest extends TestCase
 
     public function testEdit(): void
     {
-        $taskStatus = Task::factory()->create();
-        $response = $this->actingAs($this->user)->get(route('tasks.edit', $taskStatus));
+        $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->task));
         $response->assertOk();
     }
 
@@ -49,9 +51,8 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $task = Task::factory()->create();
         $data = Task::factory()->make()->only(['name', 'description', 'status_id', 'assigned_to_id']);
-        $response = $this->actingAs($this->user)->patch(route('tasks.update', $task), $data);
+        $response = $this->actingAs($this->user)->patch(route('tasks.update', $this->task), $data);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
@@ -60,20 +61,16 @@ class TaskControllerTest extends TestCase
 
     public function testDelete(): void
     {
-        $task = Task::factory()->create([
-            'created_by_id' => $this->user->id
-        ]);
-        $response = $this->actingAs($this->user)->delete(route('tasks.destroy', $task));
+        $response = $this->actingAs($this->user)->delete(route('tasks.destroy', $this->task));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        $this->assertDatabaseMissing('tasks', ['id' => (array) $task['id']]);
+        $this->assertDatabaseMissing('tasks', ['id' => (array) $this->task['id']]);
     }
 
     public function testShow(): void
     {
-        $task = Task::factory()->create();
-        $response = $this->get(route('tasks.show', $task));
+        $response = $this->get(route('tasks.show', $this->task));
         $response->assertOk();
     }
 }

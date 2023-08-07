@@ -8,12 +8,13 @@ use App\Models\{TaskStatus, User};
 class TaskStatusControllerTest extends TestCase
 {
     private User $user;
+    private TaskStatus $taskStatus;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        TaskStatus::factory()->count(10)->create();
+        $this->taskStatus = TaskStatus::factory()->create();
     }
     public function testIndex(): void
     {
@@ -29,8 +30,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testEdit(): void
     {
-        $taskStatus = TaskStatus::factory()->create();
-        $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $taskStatus));
+        $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->taskStatus));
         $response->assertOk();
     }
 
@@ -46,9 +46,8 @@ class TaskStatusControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $taskStatus = TaskStatus::factory()->create();
         $data = TaskStatus::factory()->make()->only('name');
-        $response = $this->actingAs($this->user)->patch(route('task_statuses.update', $taskStatus), $data);
+        $response = $this->actingAs($this->user)->patch(route('task_statuses.update', $this->taskStatus), $data);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
@@ -57,11 +56,10 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDelete(): void
     {
-        $taskStatus = TaskStatus::factory()->create();
-        $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $taskStatus));
+        $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        $this->assertDatabaseMissing('task_statuses', ['id' => (array) $taskStatus['id']]);
+        $this->assertDatabaseMissing('task_statuses', ['id' => (array) $this->taskStatus['id']]);
     }
 }
